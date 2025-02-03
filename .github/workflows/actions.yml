@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 7 * * *' # At 07:00 every day
 
-    jobs:
+jobs:
   build:
     runs-on: ubuntu-latest
     steps:
@@ -36,4 +36,4 @@ on:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main 
+          branch: main
