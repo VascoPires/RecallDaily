@@ -18,7 +18,7 @@ def isBlank (myString):
 def isNotBlank (myString):
     return bool(myString and myString.strip())
 
-
+#######
 ## Setup logger. 
 # Credit: https://github.com/patrickloeber/python-github-action-template/tree/main
 
