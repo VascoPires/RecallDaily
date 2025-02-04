@@ -11,7 +11,7 @@ import csv
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
-from datetime import datetime 
+from datetime import datetime  
 
 from config import config
 
@@ -301,7 +301,7 @@ if __name__ == "__main__":
 
     
     if config["use_manual_quotes"]:
-        if os.path.exists(config["manual_dbfile"]):
+        if os.path.exists(config["extracted_dbfile"]):
             logger.info(f"The database '{config['manual_dbfile']}' already exists. Skipping manual quotes extraction.")
         else:
             extract_manual_quotes(config["manual_quotes_file"], config["manual_dbfile"])
@@ -337,6 +337,6 @@ if __name__ == "__main__":
     """)
 
     # Send daily report email
-    email_subject = f"Your Recall Daily Report - {datetime.now().strftime('%d.%m.%Y')}"
+    email_subject = f"Recall Daily Report - {datetime.now().strftime('%d-%m-%Y')}"
     send_email(email_subject, email_body)
 
