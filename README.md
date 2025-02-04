@@ -8,6 +8,11 @@ It uses [GitHub Actions](https://docs.github.com/en/actions) to run the code at 
 > Just having it all in your head is not enough, a
 
 
+
+![example_output](image.png)
+
+
+
 # References
 This project was heavily influenced from the awesome recourses named below.
 

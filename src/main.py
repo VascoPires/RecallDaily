@@ -7,6 +7,7 @@ import re
 import smtplib
 import ssl
 import random
+import csv
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
@@ -156,13 +157,9 @@ def extract_highlights(dbfile, new_dbfile, output_file):
     # Close the original connection
     con.close()
 
-def extract_manual_quotes(file_path, new_dbfile):
-    if not os.path.exists(file_path):
-        logger.warning(f"The file '{file_path}' does not exist. Skipping manual quotes extraction.")
-        return
-
+def extract_manual_quotes(file_path, new_db_file):
     # Create a new SQLite database connection to store the manual highlights
-    new_con = sqlite3.connect(new_dbfile)
+    new_con = sqlite3.connect(new_db_file)
     new_cur = new_con.cursor()
 
     # Create a new table for storing the manual highlights if it doesn't exist
@@ -180,36 +177,26 @@ def extract_manual_quotes(file_path, new_dbfile):
     existing_highlights_set = set(existing_highlights)
 
     with open(file_path, 'r', encoding='utf-8') as file:
-        lines = file.readlines()
-        text, annotation, source = None, None, None
-        for line in lines:
-            if line.startswith("Text:"):
-                text = clean_text(line[len("Text:"):].strip())
-            elif line.startswith("Annotation:"):
-                annotation = clean_text(line[len("Annotation:"):].strip())
-            elif line.startswith("Source:"):
-                source = clean_text(line[len("Source:"):].strip())
+        reader = csv.DictReader(file)
+        for row in reader:
+            text = clean_text(row['Text'])
+            annotation = clean_text(row['Annotation']) if 'Annotation' in row else None
+            source = clean_text(row['Source'])
 
-            if text is None:
-                logger.warning(f"Skipping line with empty text: {line}")
-                continue
+            if text is not None and source is not None:
+                highlight_tuple = (text, annotation if isNotBlank(annotation) else None, source)
 
-            highlight_tuple = (text, annotation if isNotBlank(annotation) else None, source)
-            if highlight_tuple in existing_highlights_set:
-                logger.info(f"Skipping duplicate highlight: {highlight_tuple}")
-                continue
-
-            if isNotBlank(text):
-                new_cur.execute(
-                    "INSERT INTO Highlights (Text, Annotation, Source) VALUES (?, ?, ?)",
-                    highlight_tuple
-                )
+                if highlight_tuple not in existing_highlights_set:
+                    new_cur.execute(
+                        "INSERT INTO Highlights (Text, Annotation, Source) VALUES (?, ?, ?)",
+                        highlight_tuple
+                    )
 
     # Commit the changes and close the new database connection
     new_con.commit()
     new_con.close()
 
-    logger.info(f"Manual quotes from '{file_path}' added to the database '{new_dbfile}'")
+    logger.info(f"Manual quotes from '{file_path}' added to the database '{new_db_file}'")
 
 def merge_databases(kobo_dbfile, manual_dbfile, merged_dbfile):
     if os.path.exists(merged_dbfile):
