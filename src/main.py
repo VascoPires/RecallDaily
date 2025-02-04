@@ -306,11 +306,20 @@ if __name__ == "__main__":
         else:
             extract_manual_quotes(config["manual_quotes_file"], config["manual_dbfile"])
 
-    # Merge databases
-    merge_databases(config["extracted_dbfile"], config["manual_dbfile"], config["merged_dbfile"])
+    # Merge databases if both are in use, otherwise use the available one
+    if config["use_kobo_db"] and config["use_manual_quotes"]:
+        merge_databases(config["extracted_dbfile"], config["manual_dbfile"], config["merged_dbfile"])
+        dbfile_to_use = config["merged_dbfile"]
+    elif config["use_kobo_db"]:
+        dbfile_to_use = config["extracted_dbfile"]
+    elif config["use_manual_quotes"]:
+        dbfile_to_use = config["manual_dbfile"]
+    else:
+        logger.error("No database is configured to be used.")
+        raise ValueError("No database is configured to be used.")
 
     # Select random quotes
-    selected_quotes = select_random_quotes(config["merged_dbfile"], config["num_quotes"])
+    selected_quotes = select_random_quotes(dbfile_to_use, config["num_quotes"])
     quotes_body = "".join([format_quote_html(quote[0], quote[1], quote[2]) for quote in selected_quotes])
 
     # Load HTML template
