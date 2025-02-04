@@ -7,11 +7,16 @@ on:
     branches:
       - main
 
+env:
+  MAIL_USER: ${{secrets.MAIL_USER}}
+  MAIL_PASSWORD: ${{secrets.MAIL_PASSWORD}}
+  DAILY_REPORT_FROM: ${{secrets.DAILY_REPORT_FROM}}
+  DAILY_REPORT_TO: ${{secrets.DAILY_REPORT_TO}}
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
       - name: checkout repo content
         uses: actions/checkout@v2 # checkout the repository content to github runner
 
@@ -26,7 +31,7 @@ jobs:
           pip install -r requirements.txt
           
       - name: execute py script # run main.py
-        run: python main.py
+        run: python src/main.py
           
       - name: commit files
         run: |
