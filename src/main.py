@@ -9,7 +9,6 @@ import random
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.header import Header
-from dotenv import load_dotenv
 from datetime import datetime  
 
 from config import config
