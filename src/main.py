@@ -13,9 +13,6 @@ from datetime import datetime
 
 from config import config
 
-# Load environment variables from .env file
-load_dotenv()
-
 MAIL_USER = os.environ["MAIL_USER"]
 MAIL_PASSWORD = os.environ["MAIL_PASSWORD"]
 DAILY_REPORT_FROM = os.environ["DAILY_REPORT_FROM"]
