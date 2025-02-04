@@ -1,7 +1,7 @@
 # Configuration settings
 config = {
     "use_kobo_db": True,
-    "use_manual_quotes": False,
+    "use_manual_quotes": True,
     "kobo_dbfile": "KoboReader.sqlite",
     "manual_quotes_file": "manual_quotes.csv",
     "extracted_dbfile": "extracted_highlights.db",
