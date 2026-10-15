@@ -1,0 +1,48 @@
+name: Daily email
+
+on:
+  schedule:
+    - cron: "0 7 * * *" # 07:00 UTC every day
+  workflow_dispatch: # "Run workflow" button for a manual send
+
+permissions:
+  contents: write # commit the updated review history back to the repo
+
+concurrency:
+  group: daily-email
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install .
+
+      - name: Sync manual quotes
+        # Lets you add quotes by editing manual_quotes.csv on github.com.
+        run: |
+          if [ -f manual_quotes.csv ]; then recalldaily import csv manual_quotes.csv; fi
+
+      - name: Send today's highlights
+        env:
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          DAILY_REPORT_FROM: ${{ secrets.DAILY_REPORT_FROM }}
+          DAILY_REPORT_TO: ${{ secrets.DAILY_REPORT_TO }}
+        run: recalldaily send
+
+      - name: Save review history
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/recall.db
+          git diff --cached --quiet || git commit -m "Record today's highlights"
+          git push
