@@ -6,49 +6,55 @@
     <meta name="color-scheme" content="light dark">
     <meta name="supported-color-schemes" content="light dark">
     <title>Recall Daily</title>
+    <!-- Same fonts as vascodcpires.com. Clients that block web fonts (e.g. Gmail) fall back gracefully. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;600;700&family=Sedgwick+Ave&display=swap" rel="stylesheet">
     <style>
-      body { margin: 0; padding: 0; background: #f4f1ea; }
-      .card { background: #fffdf8; border: 1px solid #e7e1d4; border-radius: 14px; }
-      .ink { color: #2b2620; }
-      .muted { color: #8a8174; }
-      .quote { border-left: 4px solid #c7001b; background: #faf6ee; }
-      .note { background: #f1ebdf; color: #4f473c; }
+      body { margin: 0; padding: 0; background: #f1f1f1; }
+      .card { background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 12px; }
+      .ink { color: #000000; }
+      .muted { color: #828282; }
+      .accent { color: #c7001b; }
+      .quote { border-left: 3px solid #c7001b; }
+      .note { color: #2272a6; }
+      .rule { border-bottom: 1px solid rgba(0, 0, 0, 0.22); }
       @media (prefers-color-scheme: dark) {
-        body, .bg { background: #17150f !important; }
-        .card { background: #211e18 !important; border-color: #3a352c !important; }
-        .ink { color: #ece6da !important; }
-        .muted { color: #a59c8d !important; }
-        .quote { background: #2a261f !important; border-left-color: #ff4d5e !important; }
-        .note { background: #332e26 !important; color: #d6cebf !important; }
-        .rule { border-bottom-color: #3a352c !important; }
+        body, .bg { background: #1c1c1d !important; }
+        .card { background: #212529 !important; border-color: #424246 !important; }
+        .ink { color: #e8e8e8 !important; }
+        .muted { color: #9a9a9a !important; }
+        .accent { color: #ff4d5e !important; }
+        .quote { border-left-color: #ff4d5e !important; }
+        .note { color: #6cb4e6 !important; }
+        .rule { border-bottom-color: #424246 !important; }
       }
       @media only screen and (max-width: 640px) {
         .container { width: 100% !important; }
-        .pad { padding: 20px 16px !important; }
+        .pad { padding: 24px 18px !important; }
+        .title { font-size: 34px !important; }
       }
     </style>
   </head>
   <body>
     <span style="display:none;max-height:0;overflow:hidden;opacity:0;">$preheader</span>
     <table role="presentation" class="bg" width="100%" cellpadding="0" cellspacing="0" border="0"
-           style="background:#f4f1ea;">
+           style="background:#f1f1f1;">
       <tr>
-        <td align="center" style="padding:24px 8px;">
+        <td align="center" style="padding:28px 8px;">
           <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0"
                  border="0" style="width:600px;max-width:600px;">
             <tr>
-              <td class="card pad" style="padding:32px;background:#fffdf8;border:1px solid #e7e1d4;border-radius:14px;">
+              <td class="card pad" style="padding:36px 40px;background:#ffffff;border:1px solid rgba(0,0,0,0.12);border-radius:12px;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
-                    <td class="ink" style="font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:bold;color:#2b2620;">
+                    <td class="title accent" style="font-family:'Sedgwick Ave',Georgia,serif;font-size:42px;line-height:1.1;color:#c7001b;">
                       Recall Daily
                     </td>
-                    <td class="muted" align="right" style="font-family:Helvetica,Arial,sans-serif;font-size:15px;color:#8a8174;">
+                    <td class="muted" align="right" valign="bottom" style="font-family:Inter,Manrope,Helvetica,Arial,sans-serif;font-size:14px;color:#828282;padding-bottom:6px;">
                       $date
                     </td>
                   </tr>
                   <tr>
-                    <td colspan="2" class="muted rule" style="padding:6px 0 8px;border-bottom:1px solid #e7e1d4;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#8a8174;">
+                    <td colspan="2" class="muted rule" style="padding:8px 0 14px;border-bottom:1px solid rgba(0,0,0,0.22);font-family:Manrope,Inter,Helvetica,Arial,sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#828282;">
                       $count to revisit today
                     </td>
                   </tr>
@@ -57,7 +63,7 @@
               </td>
             </tr>
             <tr>
-              <td class="muted" align="center" style="padding:20px 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#8a8174;">
+              <td class="muted" align="center" style="padding:20px 0;font-family:Inter,Manrope,Helvetica,Arial,sans-serif;font-size:13px;color:#828282;">
                 $footer
               </td>
             </tr>

@@ -6,4 +6,4 @@ smtp_host = "smtp.gmail.com"
 smtp_port = 465                # 465 = SSL, anything else uses STARTTLS
 subject = "Your Recall Daily – {date}"
 date_format = "%d.%m.%Y"
-footer = "Recall Daily, created by Vasco Pires"
+footer = "Recall Daily · created by Vasco Pires · vascodcpires.com"

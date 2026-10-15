@@ -13,25 +13,25 @@ from recalldaily.text import paragraphs
 
 QUOTE_HTML = Template("""
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
-                       style="margin-top:20px;">
+                       style="margin-top:28px;">
                   <tr>
-                    <td class="quote" style="padding:16px 18px;border-left:4px solid #c7001b;background:#faf6ee;border-radius:0 8px 8px 0;">
+                    <td class="quote" style="padding:2px 0 2px 20px;border-left:3px solid #c7001b;">
                       $paragraphs
                       $note
-                      <p class="muted" style="margin:10px 0 0;text-align:right;font-family:Helvetica,Arial,sans-serif;font-size:14px;color:#8a8174;">— $source</p>
+                      <p class="muted" style="margin:12px 0 0;font-family:Manrope,Inter,Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.02em;color:#828282;">— $source</p>
                     </td>
                   </tr>
                 </table>""")
 
 PARAGRAPH_HTML = Template(
-    '<p class="ink" style="margin:0 0 10px;font-family:Georgia,\'Times New Roman\',serif;'
-    'font-size:18px;line-height:1.55;color:#2b2620;">$text</p>'
+    '<p class="ink" style="margin:0 0 10px;font-family:Inter,Manrope,Helvetica,Arial,sans-serif;'
+    'font-size:17px;line-height:1.65;color:#000000;">$text</p>'
 )
 
 NOTE_HTML = Template(
-    '<p class="note" style="margin:8px 0 0;padding:10px 12px;border-radius:6px;'
-    "font-family:Helvetica,Arial,sans-serif;font-size:14px;line-height:1.45;"
-    'background:#f1ebdf;color:#4f473c;"><strong>Your note:</strong> $text</p>'
+    '<p class="note" style="margin:10px 0 0;font-family:Inter,Manrope,Helvetica,Arial,sans-serif;'
+    'font-size:15px;line-height:1.5;font-style:italic;font-weight:500;color:#2272a6;">'
+    '<span style="font-style:normal;font-weight:600;">Your note:</span> $text</p>'
 )
 
 
