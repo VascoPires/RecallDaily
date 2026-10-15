@@ -1,0 +1,9 @@
+# Recall Daily settings. Every key is optional; these are the defaults unless noted.
+library = "data/recall.db"     # curated highlight library (safe to commit)
+num_quotes = 4                 # highlights per email
+cooldown_days = 14             # don't resend a highlight within this many days
+smtp_host = "smtp.gmail.com"
+smtp_port = 465                # 465 = SSL, anything else uses STARTTLS
+subject = "Your Recall Daily – {date}"
+date_format = "%d.%m.%Y"
+footer = "Recall Daily, created by Vasco Pires"
