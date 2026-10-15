@@ -44,3 +44,16 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+# Recall Daily
+# Raw e-reader databases contain account tokens and personal data; never commit them.
+*.sqlite
+*.sqlite3
+KoboReader.sqlite*
+My Clippings.txt
+# Only the curated library is tracked.
+*.db
+!data/recall.db
+*.log
+preview.html
+.pytest_cache/
+.ruff_cache/
