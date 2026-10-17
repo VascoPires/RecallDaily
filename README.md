@@ -96,7 +96,7 @@ Other providers work too: set `smtp_host` and `smtp_port` in [`recalldaily.toml`
 
 ### 4. Turn it on
 
-On the **Actions** tab, enable workflows, open **Daily email** and click **Run workflow** to send a test. After that it runs every day at 07:00 UTC; change the `cron` line in [`.github/workflows/daily.yml`](.github/workflows/daily.yml) to pick another time.
+On the **Actions** tab, enable workflows, open **Daily email** and click **Run workflow** to send a test. Then uncomment the `schedule` lines in [`.github/workflows/daily.yml`](.github/workflows/daily.yml) to send it every day at 07:00 UTC (adjust the `cron` time to taste).
 
 To add a quote later, edit `manual_quotes.csv` directly on GitHub; it's synced before each send.
 

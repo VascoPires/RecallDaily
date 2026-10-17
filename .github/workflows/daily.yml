@@ -1,8 +1,10 @@
 name: Daily email
 
 on:
-  schedule:
-    - cron: "0 7 * * *" # 07:00 UTC every day
+  # The schedule is off in this showcase repo. In your own fork, add the email
+  # secrets (see README) and uncomment these two lines.
+  # schedule:
+  #   - cron: "0 7 * * *" # 07:00 UTC every day
   workflow_dispatch: # "Run workflow" button for a manual send
 
 permissions:
@@ -17,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
