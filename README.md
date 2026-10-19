@@ -6,7 +6,7 @@
 
 > Just having it all in your head is not enough. A highlight you never see again is a highlight you forget.
 
-**Recall Daily** emails you a handful of your own book highlights every morning. It's a free, self-hosted alternative to [Readwise](https://readwise.io): it imports highlights from a Kobo or Kindle e-reader (or a CSV), picks a few you haven't seen in a while, and sends them as a clean email. It runs on GitHub Actions, so there's no server to maintain and no cost.
+**Recall Daily** emails you a handful of your own book highlights every morning. It's a free, self-hosted alternative to [Readwise](https://readwise.io): it imports highlights from a Kobo or Kindle e-reader (or a CSV), picks a few you haven't seen in a while, and sends them as a clean email. It can run on GitHub Actions, so there's no server to maintain and no cost.
 
 <p align="center">
   <img src="docs/email-light.png" alt="Recall Daily email, light mode" width="49%">
@@ -35,7 +35,7 @@ flowchart LR
 ```
 
 1. You import highlights **on your own computer** into `data/recall.db`, a small SQLite library, and push it.
-2. Every morning a GitHub Actions workflow picks today's highlights, emails them, and commits the updated review history back to the repo.
+2. Every morning a scheduled GitHub Actions workflow ([`examples/daily-email.yml`](examples/daily-email.yml)) picks today's highlights, emails them, and commits the updated review history back to the repo.
 
 ### Choosing highlights
 
@@ -96,7 +96,9 @@ Other providers work too: set `smtp_host` and `smtp_port` in [`recalldaily.toml`
 
 ### 4. Turn it on
 
-On the **Actions** tab, enable workflows, open **Daily email** and click **Run workflow** to send a test. Then uncomment the `schedule` lines in [`.github/workflows/daily.yml`](.github/workflows/daily.yml) to send it every day at 07:00 UTC (adjust the `cron` time to taste).
+Copy [`examples/daily-email.yml`](examples/daily-email.yml) to `.github/workflows/daily-email.yml` in your repository and push. On the **Actions** tab, open **Daily email** and click **Run workflow** to send a test. After that it sends every day at 07:00 UTC; change the `cron` line to pick another time.
+
+The workflow isn't active in this repository, which is a showcase. You can also run `recalldaily send` from any machine with the same environment variables set, for example from a cron job.
 
 To add a quote later, edit `manual_quotes.csv` directly on GitHub; it's synced before each send.
 
