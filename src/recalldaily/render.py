@@ -2,8 +2,9 @@
 
 from __future__ import annotations
 
+import base64
 from collections.abc import Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from html import escape
 from importlib import resources
 from string import Template
@@ -35,10 +36,23 @@ NOTE_HTML = Template(
 )
 
 
+TITLE_CID = "recalldaily-title"
+
+
 @dataclass
 class Digest:
     html: str
     text: str
+    # Inline images referenced from the HTML as "cid:<key>", sent as attachments.
+    images: dict[str, bytes] = field(default_factory=dict)
+
+    def browser_html(self) -> str:
+        """The HTML with inline images embedded as data URIs, for previewing in a browser."""
+        html = self.html
+        for cid, data in self.images.items():
+            uri = "data:image/png;base64," + base64.b64encode(data).decode("ascii")
+            html = html.replace(f"cid:{cid}", uri)
+        return html
 
 
 def _quote_html(h: Highlight) -> str:
@@ -60,12 +74,14 @@ def _quote_text(h: Highlight) -> str:
 def render(
     highlights: Sequence[Highlight], date_label: str, footer: str = "Recall Daily"
 ) -> Digest:
-    template = Template(
-        resources.files("recalldaily").joinpath("templates/email.html").read_text("utf-8")
-    )
+    templates = resources.files("recalldaily").joinpath("templates")
+    template = Template(templates.joinpath("email.html").read_text("utf-8"))
+    # The handwritten title is a PNG because Gmail doesn't load web fonts.
+    title_png = templates.joinpath("title.png").read_bytes()
     count = f"{len(highlights)} highlight{'s' if len(highlights) != 1 else ''}"
     preheader = highlights[0].text[:120] if highlights else "Nothing to revisit today."
     html = template.substitute(
+        title_src=f"cid:{TITLE_CID}",
         preheader=escape(preheader),
         date=escape(date_label),
         count=count,
@@ -74,4 +90,4 @@ def render(
     )
     text = f"Recall Daily — {date_label}\n{count} to revisit today\n\n"
     text += "\n\n".join(_quote_text(h) for h in highlights) + f"\n\n{footer}\n"
-    return Digest(html=html, text=text)
+    return Digest(html=html, text=text, images={TITLE_CID: title_png})

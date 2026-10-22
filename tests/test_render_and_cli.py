@@ -1,4 +1,4 @@
-from email import message_from_bytes
+from email import message_from_bytes, policy
 
 from recalldaily.cli import main
 from recalldaily.config import Credentials, load_credentials
@@ -21,8 +21,26 @@ def test_message_has_text_and_html_parts():
     msg = build_message(render([Highlight("hi", "Book")], "today"), "Subject ✓", creds)
     parsed = message_from_bytes(msg.as_bytes())
     types = [part.get_content_type() for part in parsed.walk()]
-    assert types == ["multipart/alternative", "text/plain", "text/html"]
+    assert types == [
+        "multipart/alternative",
+        "text/plain",
+        "multipart/related",
+        "text/html",
+        "image/png",
+    ]
     assert parsed["To"] == "a@example.com, b@example.com"
+
+
+def test_title_image_is_inline_and_referenced():
+    creds = Credentials("u", "p", "from@example.com", ["a@example.com"])
+    msg = build_message(render([Highlight("hi", "Book")], "today"), "Subject", creds)
+    parsed = message_from_bytes(msg.as_bytes(), policy=policy.default)
+    html = next(p for p in parsed.walk() if p.get_content_type() == "text/html")
+    image = next(p for p in parsed.walk() if p.get_content_type() == "image/png")
+    cid = image["Content-ID"].strip("<>")
+    assert f'src="cid:{cid}"' in html.get_content()
+    assert image.get_content_disposition() == "inline"
+    assert image.get_payload(decode=True).startswith(b"\x89PNG")
 
 
 def test_credentials_from_env():
@@ -37,7 +55,11 @@ def test_cli_import_and_dry_run(tmp_path, kobo_db, monkeypatch):
     assert main(["--library", lib, "import", "kobo", str(kobo_db)]) == 0
     out = tmp_path / "preview.html"
     assert main(["--library", lib, "send", "-n", "2", "--dry-run", str(out)]) == 0
-    assert out.read_text().count('class="quote"') == 2
+    preview = out.read_text()
+    assert preview.count('class="quote"') == 2
+    # The browser preview embeds the title image instead of an email-only cid: link.
+    assert "data:image/png;base64," in preview
+    assert "cid:" not in preview
     assert main(["--library", lib, "stats"]) == 0
 
 

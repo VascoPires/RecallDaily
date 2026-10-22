@@ -16,6 +16,12 @@ def build_message(digest: Digest, subject: str, creds: Credentials) -> EmailMess
     # Plain-text part first, HTML as the preferred alternative.
     msg.set_content(digest.text)
     msg.add_alternative(digest.html, subtype="html")
+    # Attach inline images to the HTML part (multipart/related) so "cid:" links resolve.
+    html_part = msg.get_payload()[1]
+    for cid, data in digest.images.items():
+        html_part.add_related(
+            data, "image", "png", cid=f"<{cid}>", filename=f"{cid}.png", disposition="inline"
+        )
     return msg
 
 
