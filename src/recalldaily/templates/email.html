@@ -6,14 +6,13 @@
     <meta name="color-scheme" content="light dark">
     <meta name="supported-color-schemes" content="light dark">
     <title>Recall Daily</title>
-    <!-- Same fonts as vascodcpires.com. Clients that block web fonts (e.g. Gmail) fall back gracefully. -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;600;700&family=Sedgwick+Ave&display=swap" rel="stylesheet">
+    <!-- Same text fonts as vascodcpires.com. Gmail ignores web fonts and falls back to Helvetica/Arial. -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
       body { margin: 0; padding: 0; background: #f1f1f1; }
       .card { background: #ffffff; border: 1px solid rgba(0, 0, 0, 0.12); border-radius: 12px; }
       .ink { color: #000000; }
       .muted { color: #828282; }
-      .accent { color: #c7001b; }
       .quote { border-left: 3px solid #c7001b; }
       .note { color: #2272a6; }
       .rule { border-bottom: 1px solid rgba(0, 0, 0, 0.22); }
@@ -22,7 +21,6 @@
         .card { background: #212529 !important; border-color: #424246 !important; }
         .ink { color: #e8e8e8 !important; }
         .muted { color: #9a9a9a !important; }
-        .accent { color: #ff4d5e !important; }
         .quote { border-left-color: #ff4d5e !important; }
         .note { color: #6cb4e6 !important; }
         .rule { border-bottom-color: #424246 !important; }
@@ -30,7 +28,6 @@
       @media only screen and (max-width: 640px) {
         .container { width: 100% !important; }
         .pad { padding: 24px 18px !important; }
-        .title { font-size: 34px !important; }
       }
     </style>
   </head>
@@ -46,8 +43,10 @@
               <td class="card pad" style="padding:36px 40px;background:#ffffff;border:1px solid rgba(0,0,0,0.12);border-radius:12px;">
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                   <tr>
-                    <td class="title accent" style="font-family:'Sedgwick Ave',Georgia,serif;font-size:42px;line-height:1.1;color:#c7001b;">
-                      Recall Daily
+                    <td style="line-height:0;">
+                      <!-- Sedgwick Ave title as an inline image: Gmail ignores web fonts. Alt text keeps the colour if images are off. -->
+                      <img src="$title_src" width="207" height="58" alt="Recall Daily"
+                           style="display:block;border:0;outline:none;text-decoration:none;font-family:Georgia,serif;font-size:32px;font-weight:bold;line-height:58px;color:#e5233a;">
                     </td>
                     <td class="muted" align="right" valign="bottom" style="font-family:Inter,Manrope,Helvetica,Arial,sans-serif;font-size:14px;color:#828282;padding-bottom:6px;">
                       $date

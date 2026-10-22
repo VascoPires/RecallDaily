@@ -52,7 +52,7 @@ def cmd_send(args, settings) -> int:
         digest = render(picked, label, settings.footer)
 
         if args.dry_run:
-            Path(args.dry_run).write_text(digest.html, encoding="utf-8")
+            Path(args.dry_run).write_text(digest.browser_html(), encoding="utf-8")
             log.info("Wrote %d highlight(s) to %s (nothing sent)", len(picked), args.dry_run)
             return 0
 
